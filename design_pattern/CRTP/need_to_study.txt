@@ -1,0 +1,3 @@
+- ParserTraits applying adoptation of CRTP
+https://chromium.googlesource.com/v8/v8.git/+/6c2c17cd4d0f585509cb32566e7489f97ad2d5f5
+
