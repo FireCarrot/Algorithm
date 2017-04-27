@@ -1,0 +1,104 @@
+#include <iostream>
+
+using namespace std;
+
+template <typename T>
+class TreeNode {
+ public:
+  TreeNode(T d) : data_(d) {
+    left_ = nullptr;
+    right_ = nullptr;
+  }
+
+  TreeNode(T d, TreeNode<T>* left, TreeNode<T>* right)
+      : data_(d)
+      , left_(left)
+      , right_(right) {}
+
+  TreeNode<T>* left() { return left_; }
+  TreeNode<T>* right() { return right_; }
+  void set_left(TreeNode<T>* left) { left_ = left; }
+  void set_right(TreeNode<T>* right) { right_ = right; }
+  T data() { return data_; }
+
+ private:
+  T data_;
+  TreeNode<T>* left_;
+  TreeNode<T>* right_;
+};
+
+/* AVL tree is a self-balancing binary search tree.
+ * In AVL tree, the heights of the two child subtrees of any node differ by at most one;
+ * if at any time they differ by more than one, rebalancing is done to restore this property.
+ * Lookup, insertion, and deletion all take O(logN) time in both the average and worst cases,
+ * where n is the number of nodes in the tree prior to the operation.
+ * Insertions and deletions may require the tree to be rebalanced by one or more tree rotations.
+ *
+ * AVL trees are often compared with red-black trees because both support the same set of
+ * operations and take O(log n) time for the basic operations.
+ * For lookup-intensive applications, AVL trees are faster than red-black trees
+ * because they are more strictly balanced. Similar to red-black trees,
+ * AVL trees are height-balanced. Both are, in general, neither weight-balanced nor u-balanced
+ * for any u<= 1/2; that is, sibling nodes can have hugely differing numbers of descendants.
+ * Algorithm              Average              Worst Case
+ * Space                  O(n)                 O(n)
+ * Search                 O(log n)             O(log n)
+ * Insert                 O(log n)             O(log n)
+ * Delete                 O(log n)             O(log n)
+ *                         J (+1)
+ *                         /    \
+ *                    F(-1)      P(+1)
+ *                    /  \      /     \
+ *                D(-1)  G(0) L(+1)   V(-1)
+ *               /              \      /  \
+ *            C(0)             N(0)  S(0) X(0)
+ *                                         /\
+ *                                      Q(0) U(0)
+ */
+
+class AVLTree {
+ public:
+  AVLTree() {
+    root_ = nullptr;
+  }
+
+  void insert(int v) {
+    root_ = insert(root_, v);
+  }
+
+  void traverse() {
+    inorder(root_);
+  }
+
+ private:
+  TreeNode<int>* insert(TreeNode<int>* root, int v) {
+    if (!root) {
+      return new TreeNode<int>(v);
+    }
+
+    if (root->data() > v) {
+      root->set_left(insert(root->left(), v));
+    } else {
+      root->set_right(insert(root->right(), v));
+    }
+
+    return root;
+  }
+
+  void inorder(TreeNode<int>* root) {
+    
+  }
+
+  TreeNode<int>* root_;
+};
+
+int main() {
+  vector<int> inputs = {12, 9, 16, 36, 72, 54, 27};
+  AVLTree tree;
+
+  for (int v : inputs) {
+    tree.insert(v);
+  }
+
+  return 0;
+}
